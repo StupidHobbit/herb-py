@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Herb'Py</title>
+  <meta name="description" content="Simple encyclopedia about herbs">
+  <meta name="author" content="StupidHobbit">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="/static/css/fonts.css" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="/static/css/normalize.css">
+  <link rel="stylesheet" href="/static/css/skeleton.css">
+  <link rel="stylesheet" href="/static/css/custom.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="/static/images/favicon.png">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+  <section id="login_form">
+    <div class="container">
+        <h4>Авторизация</h4>
+        <h5>
+            <a href="/registration">Зарегистрируйтесь</a>, чтобы иметь возможность добавлять новые записи в энциклопедию,
+                или же авторизируйтесь в форме ниже.
+        </h5>
+        <form action="/login" method="post" accept-charset="utf-8"
+          enctype="application/x-www-form-urlencoded">
+            <label for="login">Логин</label>
+            <input id="login" name="login" type="text" value="" autofocus/>
+            <label for="password">Пароль</label>
+            <input id="password" name="password" type="password" value=""/>
+            <label></label>
+            <input class="button-primary" value="Войти" type="submit">
+            {%if warning%}
+            <br>
+            <p style="color:red">You have entered incorrect login or password!</p>
+            {%endif%}
+            {%if success%}
+                <br>
+                <p style="color:green">You have successfully authorized!</p>
+            {%endif%}
+        </form>
+    </div>
+  </section>
+
+
+
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Herb'Py</title>
+  <meta name="description" content="Simple encyclopedia about herbs">
+  <meta name="author" content="StupidHobbit">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="/static/css/fonts.css" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  ––––––––––––––––––––––––––––––––––––––––––––––––/static/css/normalize.css–– -->
+  <link rel="stylesheet" href="/static/css/normalize.css">
+  <link rel="stylesheet" href="/static/css/skeleton.css">
+  <link rel="stylesheet" href="/static/css/custom.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="/static/images/favicon.png">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<h3 style="text-align: center">Лечебные травы</h3>
+<div style="text-align: center">
+    {% for c in alphabet%}
+        <a href="/herbs?char={{ c }}">{{ c }}</a>
+    {% endfor %}
+</div>
+<div class="container u-full-width">
+{% for herb in herbs %}
+    <div class="row">
+        <div class="one-half column">
+            <h5>{{ herb.name }} ({{ herb.latin_name }} L.)</h5>
+        </div>
+
+        <div class="one-half column">
+            <img decoding="async" style="align:right" src="/images/herb_{{ herb.id }}.jpg" >
+        </div>
+    </div>
+{% endfor %}
+</div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
