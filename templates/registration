@@ -33,28 +33,26 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-  <section id="login_form">
+  <section id="registration_form">
     <div class="container">
-        <h4>Авторизация</h4>
-        <h5>
-            <a href="/registration">Зарегистрируйтесь</a>, чтобы иметь возможность добавлять новые записи в энциклопедию,
-                или же авторизируйтесь в форме ниже.
-        </h5>
-        <form action="/login" method="post" accept-charset="utf-8"
+        <h3>Авторизация</h3>
+        <form action="/registration" method="post" accept-charset="utf-8"
           enctype="application/x-www-form-urlencoded">
             <label for="login">Логин</label>
             <input id="login" name="login" type="text" value="" autofocus/>
             <label for="password">Пароль</label>
             <input id="password" name="password" type="password" value=""/>
+            <label for="password_copy">Повторите пароль</label>
+            <input id="password_copy" name="password_copy" type="password" value=""/>
             <label></label>
-            <input class="button-primary" value="Войти" type="submit">
-            {%if warning%}
-            <br>
-            <p style="color:red">You have entered incorrect login or password!</p>
-            {%endif%}
-            {%if success%}
+            <input class="button-primary" value="Зарегистрироваться" type="submit">
+            {%if wrong_password%}
                 <br>
-                <p style="color:green">You have successfully authorized!</p>
+                <p style="color:red">Вы ошиблись при повторном наборе пароля!</p>
+            {%endif%}
+            {%if user_exists%}
+                <br>
+                <p style="color:red">Пользователь с таким именем уже существует!</p>
             {%endif%}
         </form>
     </div>

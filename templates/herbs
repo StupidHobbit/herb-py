@@ -42,7 +42,8 @@
 {% for herb in herbs %}
     <div class="row">
         <div class="one-half column">
-            <h5>{{ herb.name }} ({{ herb.latin_name }} L.)</h5>
+            <h5>{{ herb.name }} ({{ herb.latin_name }})</h5>
+            {{ herb.description }}
         </div>
 
         <div class="one-half column">
