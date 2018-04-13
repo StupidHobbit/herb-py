@@ -48,7 +48,7 @@
     <a class="button button-primary" href="/herbs">Растения</a>
     <a class="button button-primary" href="/collections">Сборы</a>
     {%if authorised%}
-      <a class="button button-primary" href="/herbs">Добавить растение</a>
+      <a class="button button-primary" href="/add_herb">Добавить растение</a>
       <a class="button button-primary" href="/collections">Добавить cбор</a>
     {%endif%}
   </div>
@@ -65,14 +65,14 @@
         <form action="/login" method="post" accept-charset="utf-8"
           enctype="application/x-www-form-urlencoded">
             <label for="login">Логин</label>
-            <input id="login" name="login" type="text" value="" autofocus/>
+            <input id="login" name="login" type="text" value="" maxlength="40" autofocus required/>
             <label for="password">Пароль</label>
-            <input id="password" name="password" type="password" value=""/>
+            <input id="password" name="password" type="password" maxlength="40" value="" required/>
             <label></label>
             <input class="button-primary" value="Войти" type="submit">
             {%if warning%}
             <br>
-            <p style="color:red">You have entered incorrect login or password!</p>
+            <p style="color:red">Вы ввели неверный логин или пароль!</p>
             {%endif%}
             {%if success%}
                 <br>

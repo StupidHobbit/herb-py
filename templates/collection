@@ -18,7 +18,7 @@
   <link href="/static/css/fonts.css" rel="stylesheet" type="text/css">
 
   <!-- CSS
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  ––––––––––––––––––––––––––––––––––––––––––––––––/static/css/normalize.css–– -->
   <link rel="stylesheet" href="/static/css/normalize.css">
   <link rel="stylesheet" href="/static/css/skeleton.css">
   <link rel="stylesheet" href="/static/css/custom.css">
@@ -32,35 +32,33 @@
 
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
-  <section id="registration_form">
-    <div class="container">
-        <h3>Регистрация</h3>
-        <form action="/registration" method="post" accept-charset="utf-8"
-          enctype="application/x-www-form-urlencoded">
-            <label for="login">Логин</label>
-            <input id="login" name="login" type="text" value="" maxlength="40" autofocus required/>
-            <label for="password">Пароль</label>
-            <input id="password" name="password" type="password" maxlength="40" value="" required/>
-            <label for="password_copy">Повторите пароль</label>
-            <input id="password_copy" name="password_copy" type="password" maxlength="40" value="" required/>
-            <label></label>
-            <input class="button-primary" value="Зарегистрироваться" type="submit">
-            {%if wrong_password%}
-                <br>
-                <p style="color:red">Вы ошиблись при повторном наборе пароля!</p>
-            {%endif%}
-            {%if user_exists%}
-                <br>
-                <p style="color:red">Пользователь с таким именем уже существует!</p>
-            {%endif%}
-        </form>
-    </div>
-  </section>
-
-
-
-
+{% if error %}
+<h1 style="text-align: center">К сожалению, нам не удалось найти такой сбор </h1>
+{% else %}
+<h3 style="text-align: center">{{ collection.name }}</h3>
+<h4 style="text-align: center">{{ collection.latin_name }}</h4>
+<h6 style="text-align: center"><a href="/collections">Вернуться к просмотру сборов</a></h6>
+<div class="container u-full-width">
+    {{ collection.description }}
+    {% if herbs %}
+    <h5>Этот сбор состоит из:</h5>
+    <ul>
+    {% for herb in herbs %}
+        <li>
+        <a href="/herbs/{{ herb.id }}">
+            {{ herb.name }}
+        </a>,
+        {{ herb.part }} ({{ herb.percentage }}%)
+        </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% if collection.cooking_method %}
+        <h5>Способ приготовления:</h5>
+        {{ collection.cooking_method }})
+    {% endif %}
+</div>
+{% endif %}
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>

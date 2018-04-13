@@ -18,7 +18,7 @@
   <link href="/static/css/fonts.css" rel="stylesheet" type="text/css">
 
   <!-- CSS
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  ––––––––––––––––––––––––––––––––––––––––––––––––/static/css/normalize.css–– -->
   <link rel="stylesheet" href="/static/css/normalize.css">
   <link rel="stylesheet" href="/static/css/skeleton.css">
   <link rel="stylesheet" href="/static/css/custom.css">
@@ -32,34 +32,33 @@
 
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
-  <section id="registration_form">
-    <div class="container">
-        <h3>Регистрация</h3>
-        <form action="/registration" method="post" accept-charset="utf-8"
-          enctype="application/x-www-form-urlencoded">
-            <label for="login">Логин</label>
-            <input id="login" name="login" type="text" value="" maxlength="40" autofocus required/>
-            <label for="password">Пароль</label>
-            <input id="password" name="password" type="password" maxlength="40" value="" required/>
-            <label for="password_copy">Повторите пароль</label>
-            <input id="password_copy" name="password_copy" type="password" maxlength="40" value="" required/>
-            <label></label>
-            <input class="button-primary" value="Зарегистрироваться" type="submit">
-            {%if wrong_password%}
-                <br>
-                <p style="color:red">Вы ошиблись при повторном наборе пароля!</p>
-            {%endif%}
-            {%if user_exists%}
-                <br>
-                <p style="color:red">Пользователь с таким именем уже существует!</p>
-            {%endif%}
-        </form>
+<h3 style="text-align: center">Лекарственные сборы</h3>
+<div style="text-align: center">
+<a class="button button-primary" href="/">Главная</a>
+<a class="button button-primary" href="/herbs">Растения</a>
+{%if authorised%}
+  <a class="button button-primary" href="/add_herb">Добавить растение</a>
+  <a class="button button-primary" href="/collections">Добавить cбор</a>
+{%endif%}
+</div>
+<div style="text-align: center">
+    {% for c in alphabet%}
+        <a href="/col?char={{ c }}">{{ c }}</a>
+    {% endfor %}
+</div>
+<div class="container u-full-width">
+{% for collection in collection %}
+    <div class="row">
+        <h5>
+            <a href="/collection/{{ collection.id }}">{{ collection.name }}</a>
+            {% if collection.latin_name %}
+            ({{ collection.latin_name }})
+            {% endif %}
+        </h5>
+        {{ collection.description }}
     </div>
-  </section>
-
-
-
+{% endfor %}
+</div>
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->

@@ -84,3 +84,9 @@ section {
   text-align: center;
   padding: 80px 0;
 }
+
+.adding-form {
+  width: 1000px;
+  padding: 10px;
+  margin: auto;
+}

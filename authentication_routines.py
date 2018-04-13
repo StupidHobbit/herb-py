@@ -26,7 +26,8 @@ async def check_authorisation(request):
         return
 
     ans = await send_request(request.app,
-                             "SELECT id, password FROM \"User\" WHERE login=?;",
+                             "SELECT id, login, password FROM \"User\" WHERE login=?;",
                              login)
     if len(ans):
         return ans[0]
+    return

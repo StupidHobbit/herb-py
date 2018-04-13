@@ -18,7 +18,7 @@
   <link href="/static/css/fonts.css" rel="stylesheet" type="text/css">
 
   <!-- CSS
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  ––––––––––––––––––––––––––––––––––––––––––––––––/static/css/normalize.css–– -->
   <link rel="stylesheet" href="/static/css/normalize.css">
   <link rel="stylesheet" href="/static/css/skeleton.css">
   <link rel="stylesheet" href="/static/css/custom.css">
@@ -32,35 +32,33 @@
 
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
-  <section id="registration_form">
-    <div class="container">
-        <h3>Регистрация</h3>
-        <form action="/registration" method="post" accept-charset="utf-8"
-          enctype="application/x-www-form-urlencoded">
-            <label for="login">Логин</label>
-            <input id="login" name="login" type="text" value="" maxlength="40" autofocus required/>
-            <label for="password">Пароль</label>
-            <input id="password" name="password" type="password" maxlength="40" value="" required/>
-            <label for="password_copy">Повторите пароль</label>
-            <input id="password_copy" name="password_copy" type="password" maxlength="40" value="" required/>
-            <label></label>
-            <input class="button-primary" value="Зарегистрироваться" type="submit">
-            {%if wrong_password%}
-                <br>
-                <p style="color:red">Вы ошиблись при повторном наборе пароля!</p>
-            {%endif%}
-            {%if user_exists%}
-                <br>
-                <p style="color:red">Пользователь с таким именем уже существует!</p>
-            {%endif%}
-        </form>
+{% if error %}
+<h1 style="text-align: center">К сожалению, нам не удалось найти такое растение</h1>
+{% else %}
+<h3 style="text-align: center">{{ herb.name }}</h3>
+<h4 style="text-align: center">{{ herb.latin_name }}</h4>
+<h6 style="text-align: center"><a href="/herbs">Вернуться к просмотру растений</a></h6>
+<div class="container u-full-width">
+    <div class="row">
+        <div class="one-half column">
+            {{ herb.description }}
+            {% if collections %}
+            <h5>Это растение встречается в следующих сборах:</h5>
+            <ul>
+            {% for collection in collections %}
+                <li>
+                <a href="/collection/{{ collection.id }}">{{ collection.name }}</a>
+                </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="one-half column">
+            <img decoding="async" style="align:right" src="/images/herb_{{ herb.id }}" >
+        </div>
     </div>
-  </section>
-
-
-
-
+</div>
+{% endif %}
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>

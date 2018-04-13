@@ -40,8 +40,13 @@ def init_func(argv):
 
 
 async def init_alphabet(app):
-    ans = await send_request(app, "SELECT name FROM Herb;")
-    alphabet = list(set(item[0][0].upper() for item in ans))
-    alphabet.sort()
-    print(alphabet)
-    app['alphabet'] = alphabet
+    ans = await send_request(app, "SELECT DISTINCT substr(name, 1, 1) FROM Herb;")
+    #herbs_alphabet = list(set(item[0][0].upper() for item in ans))
+    herbs_alphabet = [item[0].upper() for item in ans]
+    herbs_alphabet.sort()
+    app['herbs_alphabet'] = herbs_alphabet
+
+    ans = await send_request(app, "SELECT DISTINCT substr(name, 1, 1) FROM Collection;")
+    collections_alphabet = [item[0].upper() for item in ans]
+    collections_alphabet.sort()
+    app['collection_alphabet'] = collections_alphabet

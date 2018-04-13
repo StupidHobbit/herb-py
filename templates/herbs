@@ -34,23 +34,36 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 <h3 style="text-align: center">Лечебные травы</h3>
 <div style="text-align: center">
+<a class="button button-primary" href="/">Главная</a>
+<a class="button button-primary" href="/collections">Сборы</a>
+{%if authorised%}
+  <a class="button button-primary" href="/add_herb">Добавить растение</a>
+  <a class="button button-primary" href="/collections">Добавить cбор</a>
+{%endif%}
+</div>
+<div style="text-align: center">
     {% for c in alphabet%}
         <a href="/herbs?char={{ c }}">{{ c }}</a>
     {% endfor %}
 </div>
 <div class="container u-full-width">
-{% for herb in herbs %}
+    {% for herb in herbs %}
     <div class="row">
         <div class="one-half column">
-            <h5>{{ herb.name }} ({{ herb.latin_name }})</h5>
+            <h5>
+                <a href="/herbs/{{ herb.id }}">{{ herb.name }}</a>
+                {% if herb.latin_name %}
+                ({{ herb.latin_name }})
+                {% endif %}
+            </h5>
             {{ herb.description }}
         </div>
 
         <div class="one-half column">
-            <img decoding="async" style="align:right" src="/images/herb_{{ herb.id }}.jpg" >
+            <img decoding="async" style="align:right" src="/images/herb_{{ herb.id }}" >
         </div>
     </div>
-{% endfor %}
+    {% endfor %}
 </div>
 
 <!-- End Document

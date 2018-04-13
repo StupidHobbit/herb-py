@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Herb'Py</title>
+  <meta name="description" content="Simple encyclopedia about herbs">
+  <meta name="author" content="StupidHobbit">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="/static/css/fonts.css" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="/static/css/normalize.css">
+  <link rel="stylesheet" href="/static/css/skeleton.css">
+  <link rel="stylesheet" href="/static/css/custom.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="/static/images/favicon.png">
+
+</head>
+
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<h3 style="text-align: center">Добавить растение</h3>
+<div style="text-align: center">
+<a class="button button-primary" href="/">Главная</a>
+<a class="button button-primary" href="/herbs">Растения</a>
+{%if authorised%}
+  <a class="button button-primary" href="/collections">Сборы</a>
+  <a class="button button-primary" href="/add_collection">Добавить cбор</a>
+{%endif%}
+</div>
+  <container id="registration_form">
+    <div class="adding-form">
+    <h5>На этой странице вы можете добавить в нашу базу новые растения</h5>
+    <form action="/add_herb" method="post" accept-charset="utf-8"
+      enctype="multipart/form-data">
+        <label for="name">Название растения</label>
+        <input id="name" name="name" type="text" value="" maxlength="40" required autofocus/>
+        <label for="latin_name">Латинское название</label>
+        <input id="latin_name" name="latin_name" type="text" maxlength="40" value=""/>
+        <label for="description">Описание растения</label>
+        <textarea class="u-full-width" id="description" name="description" maxlength="10000" value="">
+        </textarea>
+        <label for="image">Изображение растения</label>
+        <input id="image" name="image" type="file" accept="image/*" value=""/>
+        <label></label>
+        <input class="button-primary" value="Добавить растение" type="submit">
+    </form>
+    {% if user_error %}
+        <p style="color:red"> Вы должны авторизироваться сначала</p>
+    {% endif %}
+    {% if too_big %}
+        <p style="color:red"> Выбранное изображение слишком крупное</p>
+    {% endif %}
+    {% if not_img %}
+        <p style="color:red"> Выбранный файл не является изображением!</p>
+    {% endif %}
+
+    </div>
+  </container>
+
+
+
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
