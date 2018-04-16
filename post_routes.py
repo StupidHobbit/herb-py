@@ -65,7 +65,7 @@ async def post_registration(request):
                                login, password,
                                commit=True
                                )
-            file = 'index.html'
+            file = '/index.html'
             context = {"authorised": True}
 
     text = aiohttp_jinja2.render_string(file, request, context)

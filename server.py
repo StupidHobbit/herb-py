@@ -1,11 +1,11 @@
 import pathlib
-from cryptography.fernet import Fernet
 
 from aiohttp import web
 import jinja2
 import aiohttp_jinja2
 from yaml import load, Loader
 
+from authentication_routines import init_cryptography
 from bd_routines import *
 from get_routes import get_routes
 from post_routes import post_routes
@@ -28,12 +28,9 @@ def init_func(argv):
     aiohttp_jinja2.setup(app,
                          loader=jinja2.FileSystemLoader('templates'))
 
-    cipher_key = Fernet.generate_key()
-    cipher = Fernet(cipher_key)
-    app['cipher'] = cipher
-
     app.on_startup.append(init_db)
     app.on_startup.append(init_alphabet)
+    app.on_startup.append(init_cryptography)
     app.on_cleanup.append(close_db)
 
     return app
