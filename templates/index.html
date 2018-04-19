@@ -49,12 +49,13 @@
     <a class="button button-primary" href="/collections">Сборы</a>
     {%if authorised%}
       <a class="button button-primary" href="/add_herb">Добавить растение</a>
-      <a class="button button-primary" href="/collections">Добавить cбор</a>
+      <a class="button button-primary" href="/add_collection">Добавить cбор</a>
     {%endif%}
   </div>
   </section>
 
   {%if not authorised%}
+  <a name="authorization"></a>
   <section id="login_form">
     <div class="container">
         <h4>Авторизация</h4>

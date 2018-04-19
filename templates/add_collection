@@ -37,7 +37,7 @@
 <a class="button button-primary" href="/herbs">Растения</a>
 {%if authorised%}
   <a class="button button-primary" href="/collections">Сборы</a>
-  <a class="button button-primary" href="/add_herb0">Добавить растение</a>
+  <a class="button button-primary" href="/add_herb">Добавить растение</a>
 {%endif%}
 </div>
   <container id="registration_form">

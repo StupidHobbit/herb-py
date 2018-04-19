@@ -19,7 +19,8 @@ async def post_login(request):
     login = data['login']
     password = data['password']
 
-    response = web.Response()
+    headers = {"Location": "/"}
+    response = web.Response(headers=headers)
     response.content_type = 'text/html'
 
     ans = await send_request(request.app,
@@ -29,6 +30,7 @@ async def post_login(request):
         user = ans[0]
         token = login_to_token(request, login)
         response.set_cookie('token', token)
+        response.set_status(303)
         context = {"authorised": True}
     else:
         context = {"warning": True}
