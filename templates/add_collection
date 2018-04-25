@@ -27,48 +27,106 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="/static/images/favicon.png">
 
+  <!-- JavaScript
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="/static/scripts/add_item.js"></script>
+
 </head>
 
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<body onload="add_item(); change_perc(0);">
+<!--<input type="range" on> -->
 <h3 style="text-align: center">Добавить сбор</h3>
 <div style="text-align: center">
-<a class="button button-primary" href="/">Главная</a>
+<a class="button button-primary" href="/#intro">Главная</a>
 <a class="button button-primary" href="/herbs">Растения</a>
 {%if authorised%}
   <a class="button button-primary" href="/collections">Сборы</a>
   <a class="button button-primary" href="/add_herb">Добавить растение</a>
+  <a class="button button-primary" href="/exit">Выйти</a>
 {%endif%}
 </div>
-  <container id="registration_form">
+  <div class="container" id="registration_form">
     <div class="adding-form">
-    <h5>На этой странице вы можете добавить в нашу базу новые растения</h5>
-    <form action="/add_herb" method="post" accept-charset="utf-8"
-      enctype="multipart/form-data">
-        <label for="name">Название растения</label>
+    <h5>На этой странице вы можете добавить в нашу базу новые сборы. Перед добавлением убедитесь
+    что все составляющие сбора присутствуют в нашей базе. В случае необходимости вы можете добавить
+    их <a href="/add_herb">тут</a>.</h5>
+    <form action="/add_collection" method="post" accept-charset="utf-8"
+      enctype="application/x-www-form-urlencoded">
+        <label for="name">Название сбора</label>
         <input id="name" name="name" type="text" value="" maxlength="40" required autofocus/>
         <label for="latin_name">Латинское название</label>
         <input id="latin_name" name="latin_name" type="text" maxlength="40" value=""/>
-        <label for="description">Описание растения</label>
-        <textarea class="u-full-width" id="description" name="description" maxlength="4000" value="">
+        <label for="description">Описание сбора</label>
+        <textarea id="description" name="description" maxlength="4000" value="">
         </textarea>
-        <label for="image">Изображение растения</label>
-        <input id="image" name="image" type="file" accept="image/*" value=""/>
+        <label for="cooking">Метод приготовления</label>
+        <input id="cooking" name="cooking" type="text" value=""/>
+        <label for="disease">Назначение</label>
+        <input id="disease" name="disease" type="text" value="" maxlength="40" list="diseases"/>
+        <datalist id="tickmarks">
+              <option value="0" label="0%">
+              <option value="10">
+              <option value="20">
+              <option value="30">
+              <option value="40">
+              <option value="50" label="50%">
+              <option value="60">
+              <option value="70">
+              <option value="80">
+              <option value="90">
+              <option value="100" label="100%">
+        </datalist>
+        <datalist id="diseases">
+          {% for disease in diseases %}
+              <option value="{{ disease.name }}"></option>
+          {% endfor %}
+        </datalist>
+        <datalist id="herbs">
+          {% for herb in herbs %}
+              <option value="{{ herb.name }}"></option>
+          {% endfor %}
+        </datalist>
+        <datalist id="parts">
+          {% for part in parts %}
+              <option value="{{ part.part }}"></option>
+          {% endfor %}
+        </datalist>
+        <label for="item_div">Состав</label>
+        <table>
+          <thead>
+            <tr>
+              <th>Название растения</th>
+              <th>Используемая часть растения</th>
+              <th>Процентное содержание</th>
+            </tr>
+          </thead>
+          <tbody id="item_div">
+          </tbody>
+        </table>
+        Суммарно процентов: <div id="perc_sum">0</div>
+        <br>
+        <a class="button button-primary" onclick="add_item()">Добавить растение к сбору</a>
         <label></label>
-        <input class="button-primary" value="Добавить растение" type="submit">
+        <input class="button-primary" id="submit" value="Добавить сбор" type="submit">
     </form>
+    <p style="color:red">
     {% if user_error %}
-        <p style="color:red"> Вы должны авторизироваться сначала</p>
+        Вы должны авторизироваться сначала!
     {% endif %}
     {% if too_big %}
-        <p style="color:red"> Выбранное изображение слишком крупное</p>
+        Выбранное изображение слишком крупное!
     {% endif %}
     {% if not_img %}
-        <p style="color:red"> Выбранный файл не является изображением!</p>
+        Выбранный файл не является изображением!
     {% endif %}
-
+    {% if already_exists %}
+        Данное растение уже присутствует в базе!
+    {% endif %}
+    </p>
     </div>
-  </container>
+  </div>
 
 
 

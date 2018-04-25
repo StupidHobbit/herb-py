@@ -117,7 +117,21 @@ async def get_registration(request):
     return {}
 
 
+@get_routes.get("/add_collection")
+@aiohttp_jinja2.template('add_collection')
+async def get_add_collection(request):
+    diseases = await send_request(request.app,
+                             "SELECT name FROM Disease;")
+    herbs = await send_request(request.app,
+                                  "SELECT name FROM Herb;")
 
+    parts = await send_request(request.app,
+                                  "SELECT part FROM Part;")
+    authorised = bool(await check_authorisation(request))
+    return {'diseases': diseases,
+            'herbs': herbs,
+            'parts': parts,
+            'authorised': authorised}
 
 
 @get_routes.get("/images/herb_{ID}")
@@ -131,3 +145,13 @@ async def image_get(request):
     headers = {'Cache-Control': 'public, max-age=31536000',
                'Last-Modified': 'Fri, 30 Mar 2018 01:03:50 GMT'}
     return web.Response(body=content, headers=headers)
+
+
+@get_routes.get("/exit")
+async def exit(request):
+    headers = {"Location": "/"}
+    response = web.Response(headers=headers)
+    response.content_type = 'text/html'
+    response.del_cookie('token')
+    response.set_status(303)
+    return response

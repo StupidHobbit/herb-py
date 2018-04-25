@@ -34,11 +34,12 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 <h3 style="text-align: center">Лекарственные сборы</h3>
 <div style="text-align: center">
-<a class="button button-primary" href="/">Главная</a>
+<a class="button button-primary" href="/#intro">Главная</a>
 <a class="button button-primary" href="/herbs">Растения</a>
 {%if authorised%}
   <a class="button button-primary" href="/add_herb">Добавить растение</a>
   <a class="button button-primary" href="/add_collection">Добавить cбор</a>
+  <a class="button button-primary" href="/exit">Выйти</a>
 {%endif%}
 </div>
 <div style="text-align: center">

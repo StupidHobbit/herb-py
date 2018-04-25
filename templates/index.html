@@ -35,7 +35,7 @@
   <section id="hero" class="hero u-full-width">
       <div class="hero-image"></div>
   </section>
-
+  <a name="intro"></a>
   <section id="introduction" class="introduction u-full-width">
   <div class="container">
     <h3 class="separator">Травяные сборы</h3>
@@ -50,6 +50,7 @@
     {%if authorised%}
       <a class="button button-primary" href="/add_herb">Добавить растение</a>
       <a class="button button-primary" href="/add_collection">Добавить cбор</a>
+      <a class="button button-primary" href="/exit">Выйти</a>
     {%endif%}
   </div>
   </section>
@@ -63,7 +64,7 @@
             <a href="/registration">Зарегистрируйтесь</a>, чтобы иметь возможность добавлять новые записи в энциклопедию,
                 или же авторизируйтесь в форме ниже.
         </h5>
-        <form action="/login" method="post" accept-charset="utf-8"
+        <form action="/login#authorization" method="post" accept-charset="utf-8"
           enctype="application/x-www-form-urlencoded">
             <label for="login">Логин</label>
             <input id="login" name="login" type="text" value="" maxlength="40" autofocus required/>

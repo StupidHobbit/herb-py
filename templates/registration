@@ -36,6 +36,7 @@
   <section id="registration_form">
     <div class="container">
         <h3>Регистрация</h3>
+          <a class="button button-primary" href="/">Главная</a>
         <form action="/registration" method="post" accept-charset="utf-8"
           enctype="application/x-www-form-urlencoded">
             <label for="login">Логин</label>

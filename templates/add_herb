@@ -34,11 +34,12 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 <h3 style="text-align: center">Добавить растение</h3>
 <div style="text-align: center">
-<a class="button button-primary" href="/">Главная</a>
+<a class="button button-primary" href="/#intro">Главная</a>
 <a class="button button-primary" href="/herbs">Растения</a>
 {%if authorised%}
   <a class="button button-primary" href="/collections">Сборы</a>
   <a class="button button-primary" href="/add_collection">Добавить cбор</a>
+  <a class="button button-primary" href="/exit">Выйти</a>
 {%endif%}
 </div>
   <container id="registration_form">
@@ -58,15 +59,20 @@
         <label></label>
         <input class="button-primary" value="Добавить растение" type="submit">
     </form>
+    <p style="color:red">
     {% if user_error %}
-        <p style="color:red"> Вы должны авторизироваться сначала</p>
+        Вы должны авторизироваться сначала!
     {% endif %}
     {% if too_big %}
-        <p style="color:red"> Выбранное изображение слишком крупное</p>
+        Выбранное изображение слишком крупное!
     {% endif %}
     {% if not_img %}
-        <p style="color:red"> Выбранный файл не является изображением!</p>
+        Выбранный файл не является изображением!
     {% endif %}
+    {% if already_exists %}
+        Данное растение уже присутствует в базе!
+    {% endif %}
+    </p>
 
     </div>
   </container>
