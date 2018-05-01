@@ -132,7 +132,7 @@ async def post_add_collection(request):
     user = await check_authorisation(request)
     if not user:
         context['user_error'] = True
-        #return context
+        return context
 
     data = await request.post()
     name = data["name"]
@@ -140,33 +140,59 @@ async def post_add_collection(request):
     disease = data["disease"]
     description = data["description"]
     cooking = data["cooking"]
-    disease = await send_request(request.app,
-                       "SELECT id "
-                       "FROM Disease "
-                       "WHERE name = ?;",
-                       disease)
-    if not disease:
-        #context['disease_not_found'] = True
-        #return context
-        disease_id = None
-    else:
-        disease_id = disease[0].id
+
+    herbs_id = []
+    parts_id = []
+    percs = []
+    herbs_errors = []
+    s = 0
+    for i in count():
+        herb_name = data.get('herb_item%d' % i)
+        if not herb_name: break
+        herb = await send_request(request.app,
+                                   "SELECT id "
+                                   "FROM Herb "
+                                   "WHERE name=?",
+                                   herb_name)
+        if not herb:
+            herbs_errors.append(i+1)
+            continue
+        else:
+            herbs_id.append(herb[0].id)
+
+
+        part_name = data.get('part_item%d' % i)
+        part = await send_request(request.app,
+                                  "SELECT id "
+                                  "FROM Part "
+                                  "WHERE part=?",
+                                  herb_name)
+        parts_id.append(part[0].id if part else None)
+
+        perc = int(data.get('perc_item%d' % i))
+        if not 0 <= perc <= 100: return {}
+        s += perc
+        percs.append(perc)
+    if s != 100: return {}
+    context['herbs_errors'] = herbs_errors
+    if herbs_errors: return context
 
     try:
-        await send_request(request.app,
-                       "INSERT INTO Collection "
-                       "(name, latin_name, description, user_id, cooking_method, disease_id) "
-                       "VALUES (?, ?, ?, ?, ?, ?);",
-                       name, latin_name, description, user.id, cooking, disease_id,
-                       commit=True
-                       )
+        ans = await send_request(request.app,
+                           "SELECT add_collection(?, ?, ?, ?, ?, ?);",
+                           name, latin_name, description, user.id, cooking, disease,
+                           commit=True)
     except IntegrityError:
         context['already_exist'] = True
         return context
 
-    collection = await send_request(request.app,
-                                    "SELECT id "
-                                    "FROM Collection "
-                                    "WHERE name = ?",
-                                    name)
-    print(collection)
+    collection_id = ans[0][0]
+
+    for herb_id, part_id, perc in zip(herbs_id, parts_id, percs):
+        print(part_id)
+        await send_request(request.app,
+                         "INSERT INTO Item "
+                         "(herb_id, collection_id, percentage, part_id) "
+                         "VALUES (?, ?, ?, ?)",
+                         herb_id, collection_id, perc/100, part_id,
+                         commit=True)

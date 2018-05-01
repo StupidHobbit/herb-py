@@ -3,14 +3,14 @@ var add = (function () {
     return function () {return counter += 1;}
 })();
 
-var cur_perc = 0;
+
 var labels = [];
 var ranges = [];
 function add_item() {
     var tr = document.createElement("tr");
     var count = add();
     var div = document.getElementById("item_div");
-    //if (count > 0){document.getElementById("perc_item" + (count - 1)).removeAttribute("disabled");}
+
     var td = document.createElement("td");
     var herb_input = document.createElement("input");
     herb_input.setAttribute("id", "herb_item" + count);
@@ -23,8 +23,8 @@ function add_item() {
 
     td = document.createElement("td");
     var part_input = document.createElement("input");
-    part_input.setAttribute("id", "part_input"  + count);
-    part_input.setAttribute("name", "part_input"  + count);
+    part_input.setAttribute("id", "part_item"  + count);
+    part_input.setAttribute("name", "part_item"  + count);
     part_input.setAttribute("type", "text");
     part_input.setAttribute("maxlength", "40");
     part_input.setAttribute("list", "parts");
@@ -34,6 +34,7 @@ function add_item() {
     td = document.createElement("td");
     var perc_input = document.createElement("input");
     perc_input.setAttribute("id", "perc_item"  + count);
+    perc_input.setAttribute("name", "perc_item"  + count);
     perc_input.setAttribute("type", "range");
     perc_input.setAttribute("maxlength", "40");
     perc_input.setAttribute("list", "tickmarks");
@@ -52,9 +53,6 @@ function add_item() {
     td.appendChild(perc_input);
     tr.appendChild(td);
 
-    //var t = document.createTextNode("This is a paragraph.");
-    //para.appendChild(t);
-    // <input id="disease" name="disease" type="text" value="" maxlength="40" list="diseases"/>
     div.appendChild(tr);
 }
 
@@ -62,8 +60,6 @@ function change_perc(n) {
     labels[n].innerText = ranges[n].value;
     var s = 0;
     for (i = 0; i < ranges.length; i++){
-        //console.log(range)
-        //console.log(range.value, range.value.toNumber(), s);
         s += Number(ranges[i].value);
     }
     var sum_text = document.getElementById("perc_sum");
