@@ -158,6 +158,9 @@ async def post_add_collection(request):
             herbs_errors.append(i+1)
             continue
         else:
+            if herb[0].id in herbs_id:
+                context['dupl'] = True
+                return context
             herbs_id.append(herb[0].id)
 
 
@@ -174,6 +177,7 @@ async def post_add_collection(request):
         s += perc
         percs.append(perc)
     if s != 100: return {}
+    
     context['herbs_errors'] = herbs_errors
     if herbs_errors: return context
 

@@ -55,7 +55,7 @@
     {% endif %}
     {% if collection.cooking_method %}
         <h5>Способ приготовления:</h5>
-        {{ collection.cooking_method }})
+        {{ collection.cooking_method }}
     {% endif %}
 </div>
 {% endif %}

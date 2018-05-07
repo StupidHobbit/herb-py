@@ -4,12 +4,16 @@ from aiohttp import web
 import jinja2
 import aiohttp_jinja2
 from yaml import load, Loader
+import asyncio
+import uvloop
 
 from authentication_routines import init_cryptography
 from bd_routines import *
 from get_routes import get_routes
 from post_routes import post_routes
 
+
+asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 def load_config(file="polls.yaml"):
     stream = open(str(pathlib.Path('.') / 'config' / file))

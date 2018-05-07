@@ -27,7 +27,7 @@ async def close_db(app):
 
 
 async def send_request(app, request, *args, commit=False):
-    print(request)
+    #print(request)
     async with app['db'].acquire() as conn:
         async with conn.cursor() as cur:
             await cur.execute(request, args)
