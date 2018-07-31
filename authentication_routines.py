@@ -1,11 +1,12 @@
 from cryptography.fernet import InvalidToken, Fernet
+import base64
 
 from bd_routines import send_request
 
 
 async def init_cryptography(app):
     cipher_key = Fernet.generate_key()
-    salt = Fernet.generate_key()
+    salt =  Fernet.generate_key() #base64.urlsafe_b64encode(b'0'*32)
     cipher = Fernet(cipher_key)
     app['cipher'] = cipher
     app['salt'] = salt

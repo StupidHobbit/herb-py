@@ -51,3 +51,7 @@ async def init_alphabet(app):
     collections_alphabet = [item[0].upper() for item in ans]
     collections_alphabet.sort()
     app['collection_alphabet'] = collections_alphabet
+
+app = init_func(
+    0
+)

@@ -47,7 +47,7 @@
   <a class="button button-primary" href="/exit">Выйти</a>
 {%endif%}
 </div>
-  <div class="container" id="registration_form">
+  <div class="container">
     <div class="adding-form">
     <h5>На этой странице вы можете добавить в нашу базу новые сборы. Перед добавлением убедитесь
     что все составляющие сбора присутствуют в нашей базе. В случае необходимости вы можете добавить
@@ -62,7 +62,7 @@
         <textarea id="description" name="description" maxlength="4000" value="">
         </textarea>
         <label for="cooking">Метод приготовления</label>
-        <input id="cooking" name="cooking" type="text" value=""/>
+        <textarea id="cooking" name="cooking" type="text" value=""></textarea>
         <label for="disease">Назначение</label>
         <input id="disease" name="disease" type="text" value="" maxlength="40" list="diseases"/>
         <datalist id="tickmarks">

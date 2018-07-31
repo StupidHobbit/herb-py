@@ -56,23 +56,44 @@ async def get_herbs(request):
 @aiohttp_jinja2.template('collections')
 async def get_collections(request):
     char = request.query.get('char')
-    if char and char in request.app["collection_alphabet"]:
-        collections = await send_request(request.app,
-                                   "SELECT ID, name, latin_name, description "
-                                   "FROM Collection "
-                                   "WHERE name LIKE '%s%%' "
-                                   "ORDER BY name;"
-                                   % char)
-    else:
-        collections = await send_request(request.app,
-                                   "SELECT ID, name, latin_name, description "
-                                   # "SELECT ID, name, COALESCE(latin_name, ''), coalesce(description, '') "
-                                   "FROM Collection "
-                                   "ORDER BY name;")
+    if not char or char not in request.app["collection_alphabet"]:
+        char = ""
+    disease_id = await send_request(request.app,
+                                  "SELECT id FROM Disease "
+                                  "WHERE name=?;",
+                                  request.query.get('disease'))
+    disease_id = None if not disease_id else disease_id[0].id
+
+    form_id = await send_request(request.app,
+                                    "SELECT id FROM UsageMode "
+                                    "WHERE name=?;",
+                                  request.query.get('form'))
+    form_id = None if not form_id else form_id[0].id
+    print(disease_id, form_id)
+    collections = await send_request(
+        request.app,
+        "SELECT ID, name, latin_name, description "
+        "FROM Collection "
+        "WHERE name LIKE '%s%%' "
+        "AND coalesce(disease_id, -1)=coalesce(?, disease_id, -1) "
+        "AND coalesce(usage_mode_id, -1)=coalesce(?, usage_mode_id, -1) "
+        "ORDER BY name;"
+        % char,
+        disease_id,
+        form_id)
+
     authorised = bool(await check_authorisation(request))
+
+    diseases = await send_request(request.app,
+                                  "SELECT name FROM Disease;")
+    forms = await send_request(request.app,
+                               "SELECT name FROM usagemode;")
+
     return {'collection': collections,
             'alphabet': request.app['collection_alphabet'],
-            'authorised': authorised}
+            'authorised': authorised,
+            'diseases': diseases,
+            'forms': forms}
 
 
 @get_routes.get("/collection/{ID}")

@@ -1,9 +1,11 @@
 import imghdr
+import base64
 from itertools import count
+import os
 
 from aiohttp import web
 import aiohttp_jinja2
-from pyodbc import IntegrityError
+from pyodbc import IntegrityError, Binary
 
 from bd_routines import send_request
 from authentication_routines import login_to_token, check_authorisation
@@ -92,7 +94,7 @@ async def post_add_herb(request):
 
     field = await reader.next()
     assert field.name == 'description'
-    description = await field.read(decode=True)
+    description = (await field.read(decode=True)).decode()
 
     field = await reader.next()
     assert field.name == 'image'
@@ -112,14 +114,18 @@ async def post_add_herb(request):
                 context['too_big'] = True
                 return context
             f.extend(chunk)
-
+    #else: f = None
+    #f = Binary(bytes(f))
+    #with open('/var/lib/postgresql/9.5/main/tempimg', 'wb') as tempfile:
+    #    tempfile.write(f)
     try:
-        await send_request(request.app,
-                       "INSERT INTO Herb (name, latin_name, description, user_id, image) "
-                       "VALUES (?, ?, ?, ?, ?);",
-                       name, latin_name, description, user.id, f,
-                       commit=True
-                       )
+        await send_request(
+            request.app,
+            "INSERT INTO Herb (name, latin_name, description, user_id, image) "
+            "VALUES (?, ?, ?, ?, ?);", #pg_read_binary_file(?)::bytea);",
+            name, latin_name, description, user.id, f, #'tempimg',
+            commit=True
+            )
     except IntegrityError:
         context['already_exists'] = True
     return context
@@ -156,13 +162,11 @@ async def post_add_collection(request):
                                    herb_name)
         if not herb:
             herbs_errors.append(i+1)
-            continue
         else:
             if herb[0].id in herbs_id:
                 context['dupl'] = True
                 return context
             herbs_id.append(herb[0].id)
-
 
         part_name = data.get('part_item%d' % i)
         part = await send_request(request.app,
@@ -176,6 +180,7 @@ async def post_add_collection(request):
         if not 0 <= perc <= 100: return {}
         s += perc
         percs.append(perc)
+    print(herbs_id, parts_id, percs, herbs_errors)
     if s != 100: return {}
     
     context['herbs_errors'] = herbs_errors

@@ -44,11 +44,34 @@
 </div>
 <div style="text-align: center">
     {% for c in alphabet%}
-        <a href="/col?char={{ c }}">{{ c }}</a>
+        <a href="/collections?char={{ c }}">{{ c }}</a>
     {% endfor %}
 </div>
+
 <div class="container u-full-width">
-{% for collection in collection %}
+    <div class="adding-form">
+        <form action="/collections" method="get" accept-charset="utf-8"
+            enctype="application/x-www-form-urlencoded">
+            <label for="disease">Выберите назначение</label>
+            <input id="disease" name="disease" type="text" value="" maxlength="40" list="diseases"/>
+            <datalist id="diseases">
+              {% for disease in diseases %}
+                  <option value="{{ disease.name }}"></option>
+              {% endfor %}
+            </datalist>
+            <label for="form">Выберите форму</label>
+            <input id="form" name="form" type="text" value="" maxlength="40" list="forms"/>
+            <datalist id="forms">
+              {% for form in forms %}
+                  <option value="{{ form.name }}"></option>
+              {% endfor %}
+            </datalist>
+            <label></label>
+            <input class="button-primary" id="submit" value="Поиск" type="submit">
+            <a class="button button-primary" href="/collections">Сбросить</a>
+        </form>
+    </div>
+    {% for collection in collection %}
     <div class="row">
         <h5>
             <a href="/collection/{{ collection.id }}">{{ collection.name }}</a>
